@@ -1,0 +1,87 @@
+<h3>Wizard</h3>
+<div class="wizard">
+  <a *ngFor="let step of steps; index as i" [class.current]="i == activeStepIndex"><span
+      class="badge"> Step {{ i + 1 }} <i id='clickableAwesomeFont' (click)="deleteStep(step)"
+        class="fa fa-minus ml-3"></i> </span>
+  </a>
+
+  <a [class.current]="addNewStep" (click)="loadStepItems(null, -1)"><span class="badge"> <i (click)="AddNewStep()" class="fa fa-plus ml-3"></i>
+    </span>
+  </a>
+</div>
+<a class="btn btn-primary float-right mr-5 mt-5" (click)="stepperForm.resetForm({})" style="width: 150px;">Add New Item</a>
+
+<div style="margin-top: 50px" *ngFor="let item of items | ItemsOfStep: currentStep?.id; index as j">
+
+  <div   (click)="onItemClick(item, j)"    [ngClass]="activeItemIndex==j ? 'ItemHeader-Current' : 'ItemHeader'">
+    Item {{ j + 1 }} <i (click)="deleteItem(item)" class="fa fa-minus ml-3"></i>
+  </div>
+  <hr style="margin-top: 0; padding-top: 0" />
+  <ul>
+    <li>{{ item.title }}</li>
+    <li>{{ item.description }}</li>
+  </ul>
+</div>
+<div style="margin-top: 50px">
+  <div style="
+      width: 200px;
+      height: 42px;
+      background-color: #007acc;
+      border-radius: 5px 5px 0 0;
+      text-align: center;
+      padding-top: 7px;
+      color: white;
+    ">
+    Add/Edit
+  </div>
+  <hr style="margin-top: 0; padding-top: 0" />
+  <div class="ml-5 my-5">
+    <form #stepperForm="ngForm" (ngSubmit)="onSubmit(stepperForm)">
+      <input hidden name="itemId" [(ngModel)]="itemId"/>
+      <div class="row">
+        <div class="col-8">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group row">
+                <label for="title" class="col-sm-2 col-form-label">Title</label>
+                <div class="col-sm-10">
+                  <input id="title" required type="text" class="form-control mx-sm-3" name="title" [(ngModel)]="title"  #titleRef="ngModel" />
+                  <div *ngIf="titleRef.invalid && (titleRef.dirty || titleRef.touched)" class="text-danger ml-3">
+                    <div  *ngIf="titleRef.errors.required">
+                     Title is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group row">
+                <label for="description" class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-10">
+                  <input id="description" required type="text" class="form-control mx-sm-3" name="description"  #descriptionRef="ngModel"
+                    [(ngModel)]="description" />
+                    <div *ngIf="descriptionRef.invalid && (descriptionRef.dirty || descriptionRef.touched)" class="text-danger ml-3">
+                      <div *ngIf="descriptionRef.errors.required">
+                        Description is required.
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <button class="btn btn-primary mt-4 ml-5" style="width: 150px;" [disabled]="stepperForm.invalid" type="submit">Save</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <a class="btn btn-primary mt-4 ml-5" (click)="onPrevious(activeStepIndex)" style="width: 150px;">Previous</a>
+        </div>
+        <div class="col-6">
+          <a class="btn btn-primary mt-4 ml-5" (click)="onNext(activeStepIndex)" style="width: 150px;">Next</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -64,11 +64,11 @@ namespace ParentDetailsApp.Controllers
             }
             if (itemVM.Id == null)
             {
-                db.Items.Add(new Item {  StepId=itemVM.StepId, Description=itemVM.Description, Title=itemVM.Title});
+                db.Items.Add(mapper.Map<Item>(itemVM));
             }
             else
             {
-                db.Items.Update(new Item {Id= itemVM.Id.Value, StepId = itemVM.StepId, Description = itemVM.Description, Title = itemVM.Title });
+                db.Items.Update(mapper.Map<Item>(itemVM));
             }
             db.Save();
             return NoContent();

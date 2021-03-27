@@ -12,10 +12,8 @@ namespace ParentDetailsApp.Mapper
     {
         public MappingProfile()
         {
-             
             CreateMap<StepVM, Step>().ForMember(s => s.Items, opt => opt.Ignore()).ReverseMap();
-            CreateMap<Step, StepVM>().ReverseMap();
-            
+            CreateMap<Item, ItemVM>().ReverseMap();
         }
     }
 }
